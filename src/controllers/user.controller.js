@@ -1,6 +1,6 @@
 const UserUseCase = require("../useCases/user.usecase.js");
 
-export class UserController {
+module.exports = class UserController {
   constructor() {
     this.usecase = new UserUseCase();
   }
@@ -19,4 +19,4 @@ export class UserController {
       res.status(409).json({ message: "User already registered" });
     }
   }
-}
+};
