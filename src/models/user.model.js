@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         defaultValue: randomUUID(),
       },
-      username: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.STRING,
     },

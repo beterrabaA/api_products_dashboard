@@ -6,10 +6,9 @@ module.exports = class UserUseCase {
     this.model = new User();
   }
 
-  async createUser(username, email, password) {
+  async createUser(email, password) {
     const hashedPassword = hashEncode(password);
     const newUser = await User.create({
-      username,
       email,
       password: hashedPassword,
     });
