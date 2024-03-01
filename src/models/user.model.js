@@ -1,8 +1,14 @@
+const { randomUUID } = require("crypto");
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     "User",
     {
-      uuid: DataTypes.UUID,
+      uuid: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+        defaultValue: randomUUID(),
+      },
       username: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.STRING,
