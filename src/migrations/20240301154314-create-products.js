@@ -14,19 +14,9 @@ module.exports = {
       model: {
         type: Sequelize.STRING,
       },
-      price: {
-        type: Sequelize.FLOAT,
-      },
-      color: {
-        type: Sequelize.STRING,
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
+      data: {
+        defaultValue: [],
+        type: Sequelize.ARRAY(Sequelize.JSON),
       },
       user_id: {
         type: Sequelize.UUID,
@@ -34,6 +24,17 @@ module.exports = {
           model: "users",
           key: "uuid",
         },
+        onDelete: "CASCADE",
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
       },
     });
   },
