@@ -17,5 +17,11 @@ module.exports = class UserRoute {
       this.credentials.validateCredentials,
       this.controller.create.bind(this.controller)
     );
+
+    this.router.post(
+      "/user/login",
+      this.credentials.validateCredentials,
+      this.controller.login.bind(this.controller)
+    );
   }
 };
