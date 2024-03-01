@@ -1,0 +1,17 @@
+{
+  "name": "api_product",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/index.js",
+    "dev": "node --watch-path=./src ./src/index.js"
+  },
+  "author": "Beterraba",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.3"
+  }
+}
