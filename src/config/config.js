@@ -8,12 +8,15 @@ const options = {
   dialect: "postgres",
   dialectOptions: {
     ssl: {
-      require: true, // This is important
-      rejectUnauthorized: false, // You might need to set this to true in production
+      require: true,
+      rejectUnauthorized: false,
     },
   },
+  logging: process.env.DEBUG !== "false",
 };
 
 module.exports = {
-  ...options,
+  development: {
+    ...options,
+  },
 };
