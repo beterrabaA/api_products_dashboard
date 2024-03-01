@@ -1,4 +1,5 @@
 const UserUseCase = require("../useCases/user.usecase.js");
+const { tokenGenerator } = require("../utils/token.js");
 
 module.exports = class UserController {
   constructor() {
@@ -6,17 +7,30 @@ module.exports = class UserController {
   }
 
   async create(req, res, next) {
-    const { username, email, password } = req.body;
+    const { email, password } = req.body;
     try {
-      const createdUser = await this.usecase.createUser(
-        username,
-        email,
-        password
-      );
+      const createdUser = await this.usecase.createUser(email, password);
 
-      return res.status(200).json(createdUser);
+      return res.status(201).json(createdUser);
     } catch (error) {
       res.status(409).json({ message: "User already registered" });
+    }
+  }
+
+  async login(req, res, next) {
+    const { email, password } = req.body;
+
+    try {
+      const user = await this.usecase.login(email, password);
+      const token = tokenGenerator({
+        id: user.uuid,
+        email: user.email,
+        password: user.password,
+      });
+
+      return res.status(200).json({ token });
+    } catch (error) {
+      return res.status(403).json({ message: error.message });
     }
   }
 };
