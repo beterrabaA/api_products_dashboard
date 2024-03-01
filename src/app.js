@@ -1,6 +1,8 @@
-import express from "express";
+const express = require("express");
 
-export class App {
+require("dotenv/config");
+
+module.exports = class App {
   constructor() {
     this.app = express();
     this.port = process.env.PORT || 3000; // get .env port
@@ -12,4 +14,4 @@ export class App {
       console.log(`server is running at http://localhost:${this.port} `)
     );
   }
-}
+};
