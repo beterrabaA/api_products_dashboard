@@ -1,8 +1,10 @@
 const { User } = require("../models");
-const { hashEncode } = require("../utils/hash");
+const { hashEncode, hashDecode } = require("../utils/hash");
 
 module.exports = class UserUseCase {
-  constructor() {}
+  constructor() {
+    this.model = new User();
+  }
 
   async createUser(username, email, password) {
     const hashedPassword = hashEncode(password);
@@ -13,5 +15,15 @@ module.exports = class UserUseCase {
     });
 
     return newUser;
+  }
+
+  async findUserById(uuid) {
+    const user = await User.findByPk(uuid, {
+      attributes: { exclude: ["password"] },
+    });
+
+    if (!user) throw new Error("User not found");
+
+    return user;
   }
 };
