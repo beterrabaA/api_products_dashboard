@@ -37,4 +37,24 @@ module.exports = class ProductUseCase {
 
     return newProduct;
   }
+
+  async newProductWithDetails(token, product) {
+    const random = randomUUID();
+    const { name, details, price } = product;
+    const { brand, model, color } = details;
+
+    const decodedUser = tokenDecoder(token);
+    const stringProduct = JSON.stringify({ price, color });
+
+    const newProduct = await Product.create({
+      id: random,
+      name,
+      brand,
+      model,
+      data: [stringProduct],
+      userId: decodedUser.id,
+    });
+
+    return newProduct;
+  }
 };
