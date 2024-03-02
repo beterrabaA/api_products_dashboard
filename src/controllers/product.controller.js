@@ -6,7 +6,7 @@ module.exports = class ProductController {
   }
 
   async getAllProducts(req, res, next) {
-    const token = req.headers("Authorization");
+    const token = req.headers.authorization;
 
     try {
       const products = await this.usecase.getAllProducts(token);
@@ -18,15 +18,26 @@ module.exports = class ProductController {
   }
 
   async newProduct(req, res, next) {
-    const token = req.headers("Authorization");
+    const token = req.headers.authorization;
     const product = req.body;
 
-    try {
-      const newProduct = await this.usecase.newProduct(token, product);
+    let newProduct;
 
+    try {
+      if (product.details) {
+        newProduct = await this.usecase.newProductWithDetails(token, product);
+      } else if (product.data) {
+        newProduct = await this.usecase.newProductWithData(token, product);
+        return res.status(201).json(newProduct);
+      } else {
+        newProduct = await this.usecase.newProduct(token, product);
+      }
+
+      const parsedData = JSON.parse(newProduct.data);
+      newProduct.data = [parsedData];
       return res.status(201).json(newProduct);
     } catch (error) {
-      return res.status(405).json({ message: "something went wrong" });
+      return res.status(405).json({ message: error.message });
     }
   }
 };
