@@ -4,6 +4,12 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     return queryInterface.createTable("products", {
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUID,
+      },
       name: {
         allowNull: false,
         type: Sequelize.STRING,
