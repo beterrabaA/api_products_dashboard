@@ -144,4 +144,10 @@ module.exports = class ProductUseCase {
       throw new Error("failed to update product with data");
     }
   }
+
+  async deleteProduct(token, id) {
+    const decodedUser = tokenDecoder(token);
+
+    await Product.destroy({ where: { id, userId: decodedUser.id } });
+  }
 };
