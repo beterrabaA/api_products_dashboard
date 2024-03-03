@@ -12,6 +12,7 @@ module.exports = class ProductUseCase {
 
     const products = await Product.findAll({
       where: { userId: decodedUser.id },
+      attributes: { exclude: ["userId", "createdAt", "updatedAt"] },
     });
 
     if (!products) throw new Error("products not found");
