@@ -19,8 +19,12 @@ module.exports = class ProductUseCase {
     return products;
   }
 
-  async getProductById(id) {
-    const product = await Product.findByPk(id);
+  async getProductById(token, id) {
+    const decodedUser = tokenDecoder(token);
+    const product = await Product.findOne({
+      where: { id, userId: decodedUser.id },
+      attributes: { exclude: ["userId", "createdAt", "updatedAt"] },
+    });
 
     if (!product) throw new Error("product not found");
 
