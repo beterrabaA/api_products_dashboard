@@ -10,9 +10,7 @@ const hashEncode = (password) => {
     .toString("hex");
 };
 
-const hashDecode = (password, hash) => {
-  return hashEncode(password) === hash;
-};
+const hashDecode = (password, hash) => hashEncode(password) === hash
 
 module.exports = {
   hashDecode,
