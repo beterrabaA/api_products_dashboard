@@ -1,4 +1,5 @@
 const { Product } = require("../models");
+
 const { tokenDecoder } = require("../utils/token");
 
 const { randomUUID } = require("crypto");
@@ -24,7 +25,7 @@ module.exports = class ProductUseCase {
 
     const { name, brand, model, price, color } = product;
     const decodedUser = tokenDecoder(token);
-    const stringProduct = JSON.stringify({ price, color });
+    const stringProduct = JSON.stringify([{ price, color }]);
 
     const newProduct = await Product.create({
       id: random,
@@ -44,7 +45,7 @@ module.exports = class ProductUseCase {
     const { brand, model, color } = details;
 
     const decodedUser = tokenDecoder(token);
-    const stringProduct = JSON.stringify({ price, color });
+    const stringProduct = JSON.stringify([{ price, color }]);
 
     const newProduct = await Product.create({
       id: random,
