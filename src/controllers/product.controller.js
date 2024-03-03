@@ -51,21 +51,31 @@ module.exports = class ProductController {
     }
   }
 
-  async updateProduct(req, res, next) {
+  async update(req, res, next) {
     const token = req.headers.authorization;
-    const productId = req.params.id;
+    const { id } = req.params;
     const product = req.body;
 
     let productUpdated;
 
     try {
-      const updatedProduct = await this.usecase.updateProduct(
-        token,
-        productId,
-        product
-      );
+      if (product.details) {
+        productUpdated = await this.usecase.updateProductWithDetails(
+          token,
+          id,
+          product
+        );
+      } else if (product.data) {
+        productUpdated = await this.usecase.updateProductWithData(
+          token,
+          id,
+          product
+        );
+      } else {
+        productUpdated = await this.usecase.updateProduct(token, id, data);
+      }
 
-      return res.status(200).json(updatedProduct);
+      return res.status(200).json(productUpdated);
     } catch (error) {
       return res.status(405).json({ message: error.message });
     }
