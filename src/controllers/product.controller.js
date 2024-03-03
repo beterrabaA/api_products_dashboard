@@ -56,26 +56,16 @@ module.exports = class ProductController {
     const { id } = req.params;
     const product = req.body;
 
-    let productUpdated;
-
     try {
       if (product.details) {
-        productUpdated = await this.usecase.updateProductWithDetails(
-          token,
-          id,
-          product
-        );
+        await this.usecase.updateProductWithDetails(token, id, product);
       } else if (product.data) {
-        productUpdated = await this.usecase.updateProductWithData(
-          token,
-          id,
-          product
-        );
+        await this.usecase.updateProductWithData(token, id, product);
       } else {
-        productUpdated = await this.usecase.updateProduct(token, id, data);
+        await this.usecase.updateProduct(token, id, product);
       }
 
-      return res.status(200).json(productUpdated);
+      return res.status(200).json({ message: "product updated" });
     } catch (error) {
       return res.status(405).json({ message: error.message });
     }

@@ -108,8 +108,6 @@ module.exports = class ProductUseCase {
     );
 
     if (!productUpdated) throw new Error("update failed");
-
-    return productUpdated;
   }
 
   async updateProductWithDetails(token, id, product) {
@@ -133,8 +131,6 @@ module.exports = class ProductUseCase {
     if (!updatedProduct) {
       throw new Error("failed to update product with details");
     }
-
-    return updatedProduct;
   }
 
   async updateProductWithData(token, id, product) {
@@ -147,7 +143,5 @@ module.exports = class ProductUseCase {
     if (!updatedProduct) {
       throw new Error("failed to update product with data");
     }
-
-    return updatedProduct;
   }
 };
