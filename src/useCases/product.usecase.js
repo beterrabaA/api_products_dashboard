@@ -3,6 +3,11 @@ const { Product } = require("../models");
 const { tokenDecoder } = require("../utils/token");
 
 const { randomUUID } = require("crypto");
+const {
+  prodSchema,
+  prodWDtailsSchema,
+  prodWDataSchema,
+} = require("./validations");
 
 module.exports = class ProductUseCase {
   constructor() {}
@@ -38,6 +43,10 @@ module.exports = class ProductUseCase {
     const { name, brand, model, price, color } = product;
     const decodedUser = tokenDecoder(token);
 
+    const { error } = prodSchema.validate(product);
+
+    if (error) throw new Error(error.message);
+
     const newProduct = await Product.create({
       id: random,
       name,
@@ -58,6 +67,10 @@ module.exports = class ProductUseCase {
     const { brand, model, color } = details;
 
     const decodedUser = tokenDecoder(token);
+
+    const { error } = prodWDtailsSchema.validate(product);
+
+    if (error) throw new Error(error.message);
 
     const newProduct = await Product.create({
       id: random,
@@ -81,6 +94,10 @@ module.exports = class ProductUseCase {
       element.userId = decodedUser.id;
     });
 
+    const { error } = prodWDataSchema.validate(product);
+
+    if (error) throw new Error(error.message);
+
     const newProduct = await Product.bulkCreate(product);
 
     if (!newProduct) {
@@ -94,6 +111,10 @@ module.exports = class ProductUseCase {
     const decodedUser = tokenDecoder(token);
 
     const { name, brand, model, price, color } = product;
+
+    const { error } = productSchema.validate(product);
+
+    if (error) throw new Error(error.message);
 
     const productUpdated = await Product.update(
       {
