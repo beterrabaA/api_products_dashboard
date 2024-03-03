@@ -47,6 +47,8 @@ module.exports = class ProductUseCase {
       userId: decodedUser.id,
     });
 
+    if (!newProduct) throw new Error("product not created");
+
     return newProduct;
   }
 
@@ -66,6 +68,8 @@ module.exports = class ProductUseCase {
       userId: decodedUser.id,
     });
 
+    if (!newProduct) throw new Error("failed to create product with details");
+
     return newProduct;
   }
 
@@ -78,6 +82,10 @@ module.exports = class ProductUseCase {
     });
 
     const newProduct = await Product.bulkCreate(product);
+
+    if (!newProduct) {
+      throw new Error("failed to bulk create products with data");
+    }
 
     return newProduct;
   }
