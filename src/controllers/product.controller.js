@@ -17,6 +17,19 @@ module.exports = class ProductController {
     }
   }
 
+  async getProductById(req, res, next) {
+    const token = req.headers.authorization;
+    const productId = req.params.id;
+
+    try {
+      const product = await this.usecase.getProductById(token, productId);
+
+      return res.status(200).json(product);
+    } catch (error) {
+      return res.status(404).json({ message: error.message });
+    }
+  }
+
   async newProduct(req, res, next) {
     const token = req.headers.authorization;
     const product = req.body;
