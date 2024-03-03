@@ -19,20 +19,26 @@ module.exports = class ProductUseCase {
     return products;
   }
 
+  async getProductById(id) {
+    const product = await Product.findByPk(id);
+
+    if (!product) throw new Error("product not found");
+
+    return product;
+  }
+
   async newProduct(token, product) {
-    console.log("foi");
     const random = randomUUID();
 
     const { name, brand, model, price, color } = product;
     const decodedUser = tokenDecoder(token);
-    const stringProduct = JSON.stringify([{ price, color }]);
 
     const newProduct = await Product.create({
       id: random,
       name,
       brand,
       model,
-      data: [stringProduct],
+      data: [{ price, color }],
       userId: decodedUser.id,
     });
 
@@ -45,14 +51,13 @@ module.exports = class ProductUseCase {
     const { brand, model, color } = details;
 
     const decodedUser = tokenDecoder(token);
-    const stringProduct = JSON.stringify([{ price, color }]);
 
     const newProduct = await Product.create({
       id: random,
       name,
       brand,
       model,
-      data: [stringProduct],
+      data: [{ price, color }],
       userId: decodedUser.id,
     });
 
