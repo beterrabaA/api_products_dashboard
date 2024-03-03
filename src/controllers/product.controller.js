@@ -83,4 +83,17 @@ module.exports = class ProductController {
       return res.status(404).json({ message: "failed to detele product" });
     }
   }
+
+  async patch(req, res, next) {
+    const token = req.headers.authorization;
+    const { id } = req.params;
+    const product = req.body;
+
+    try {
+      await this.usecase.patchProduct(token, id, product);
+      return res.status(200).json({ message: "product patched" });
+    } catch (error) {
+      return res.status(404).json({ message: "failed to detele product" });
+    }
+  }
 };

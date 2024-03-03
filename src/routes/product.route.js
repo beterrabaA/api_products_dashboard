@@ -39,5 +39,11 @@ module.exports = class ProductRoute {
       "/product/:id",
       this.controller.delete.bind(this.controller)
     );
+
+    // patch method "/api/product/:id" route
+    this.router.patch(
+      "/product/:id",
+      this.controller.patch.bind(this.controller)
+    );
   }
 };

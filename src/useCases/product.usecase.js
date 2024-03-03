@@ -174,4 +174,14 @@ module.exports = class ProductUseCase {
 
     await Product.destroy({ where: { id, userId: decodedUser.id } });
   }
+
+  async patchProduct(token, id, product) {
+    const decodedUser = tokenDecoder(token);
+
+    const productPatched = await Product.update(product, {
+      where: { id, userId: decodedUser.id },
+    });
+
+    if (!productPatched) throw new Error("patch failed");
+  }
 };
