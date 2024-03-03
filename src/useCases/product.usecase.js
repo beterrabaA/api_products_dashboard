@@ -63,4 +63,18 @@ module.exports = class ProductUseCase {
 
     return newProduct;
   }
+
+  async newProductWithData(token, product) {
+    const decodedUser = tokenDecoder(token);
+
+    product.forEach((element) => {
+      element.id = randomUUID();
+      element.userId = decodedUser.id;
+    });
+
+    console.log(product);
+    const newProduct = await Product.bulkCreate(product);
+
+    return newProduct;
+  }
 };
