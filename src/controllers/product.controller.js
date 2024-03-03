@@ -70,4 +70,17 @@ module.exports = class ProductController {
       return res.status(405).json({ message: error.message });
     }
   }
+
+  async delete(req, res, next) {
+    const token = req.headers.authorization;
+    const { id } = req.params;
+
+    try {
+      await this.usecase.deleteProduct(token, id);
+
+      return res.status(204).json();
+    } catch (error) {
+      return res.status(404).json({ message: "failed to detele product" });
+    }
+  }
 };
