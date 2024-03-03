@@ -72,7 +72,6 @@ module.exports = class ProductUseCase {
       element.userId = decodedUser.id;
     });
 
-    console.log(product);
     const newProduct = await Product.bulkCreate(product);
 
     return newProduct;

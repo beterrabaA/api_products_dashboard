@@ -26,15 +26,12 @@ module.exports = class ProductController {
     try {
       if (product.details) {
         newProduct = await this.usecase.newProductWithDetails(token, product);
-      } else if (product.data) {
+      } else if (Array.isArray(product) && product[0].data) {
         newProduct = await this.usecase.newProductWithData(token, product);
-        return res.status(201).json(newProduct);
       } else {
         newProduct = await this.usecase.newProduct(token, product);
       }
 
-      const parsedData = JSON.parse(newProduct.data);
-      newProduct.data = [parsedData];
       return res.status(201).json(newProduct);
     } catch (error) {
       return res.status(405).json({ message: error.message });
