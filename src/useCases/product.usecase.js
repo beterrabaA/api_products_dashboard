@@ -89,4 +89,26 @@ module.exports = class ProductUseCase {
 
     return newProduct;
   }
+
+  async updateProduct(token, id, product) {
+    const decodedUser = tokenDecoder(token);
+
+    const { name, brand, model, price, color } = product;
+
+    const productToUpdate = await Product.update(
+      {
+        name,
+        brand,
+        model,
+        data: [{ price, color }],
+      },
+      {
+        where: { id, userId: decodedUser.id },
+      }
+    );
+
+    if (!productToUpdate) throw new Error("update failed");
+
+    return productToUpdate;
+  }
 };
