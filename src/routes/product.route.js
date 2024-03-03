@@ -27,5 +27,11 @@ module.exports = class ProductRoute {
 
     // post method "/api/product" route
     this.router.post("/product", this.controller.create.bind(this.controller));
+
+    // put method "/api/product/:id" route
+    this.router.put(
+      "/product/:id",
+      this.controller.update.bind(this.controller)
+    );
   }
 };
