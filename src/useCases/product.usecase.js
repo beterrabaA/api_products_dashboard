@@ -95,7 +95,7 @@ module.exports = class ProductUseCase {
 
     const { name, brand, model, price, color } = product;
 
-    const productToUpdate = await Product.update(
+    const productUpdated = await Product.update(
       {
         name,
         brand,
@@ -107,8 +107,33 @@ module.exports = class ProductUseCase {
       }
     );
 
-    if (!productToUpdate) throw new Error("update failed");
+    if (!productUpdated) throw new Error("update failed");
 
-    return productToUpdate;
+    return productUpdated;
+  }
+
+  async updateProductWithDetails(token, id, product) {
+    const decodedUser = tokenDecoder(token);
+
+    const { name, details, price } = product;
+    const { brand, model, color } = details;
+
+    const updatedProduct = await Product.update(
+      {
+        name,
+        brand,
+        model,
+        data: [{ price, color }],
+      },
+      {
+        where: { id, userId: decodedUser.id },
+      }
+    );
+
+    if (!updatedProduct) {
+      throw new Error("failed to update product with details");
+    }
+
+    return updatedProduct;
   }
 };
