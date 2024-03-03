@@ -22,6 +22,12 @@ module.exports = class ProductRoute {
       this.controller.getAllProducts.bind(this.controller)
     );
 
+    // get method "/api/product/:id" route
+    this.router.get(
+      "/product/:id",
+      this.controller.getProductById.bind(this.controller)
+    );
+
     // post method "/api/product" route
     this.router.post(
       "/product",
