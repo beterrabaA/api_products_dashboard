@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const UserRoute = require("./routes/user.route.js");
+const ProductRoute = require("./routes/product.route.js");
 
 require("dotenv/config");
 
@@ -9,6 +10,7 @@ module.exports = class App {
     this.app = express();
     this.port = process.env.PORT || 3000; // get .env port
     this.userRoute = new UserRoute();
+    this.productRoute = new ProductRoute();
     this.middlewaresInitialize();
     this.initializeRoutes();
   }
@@ -22,6 +24,7 @@ module.exports = class App {
   // initialize root /api route
   initializeRoutes() {
     this.app.use("/api", this.userRoute.router);
+    this.app.use("/api", this.productRoute.router);
   }
 
   // initiate server listener
