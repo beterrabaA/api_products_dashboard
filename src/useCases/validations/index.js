@@ -32,8 +32,22 @@ const prodWDataSchema = joi.array().items(
   })
 );
 
+// single prodWDataSchema
+const sProdWDataSchema = joi.object({
+  name: joi.string().required(),
+  brand: joi.string().required(),
+  model: joi.string().required(),
+  data: joi.array().items(
+    joi.object({
+      price: joi.number().min(1).required(),
+      color: joi.string().required(),
+    })
+  ),
+});
+
 module.exports = {
   prodSchema,
   prodWDtailsSchema,
   prodWDataSchema,
+  sProdWDataSchema,
 };

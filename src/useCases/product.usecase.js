@@ -7,6 +7,7 @@ const {
   prodSchema,
   prodWDtailsSchema,
   prodWDataSchema,
+  sProdWDataSchema,
 } = require("./validations");
 
 module.exports = class ProductUseCase {
@@ -44,7 +45,6 @@ module.exports = class ProductUseCase {
     const decodedUser = tokenDecoder(token);
 
     const { error } = prodSchema.validate(product);
-
     if (error) throw new Error(error.message);
 
     const newProduct = await Product.create({
@@ -69,7 +69,6 @@ module.exports = class ProductUseCase {
     const decodedUser = tokenDecoder(token);
 
     const { error } = prodWDtailsSchema.validate(product);
-
     if (error) throw new Error(error.message);
 
     const newProduct = await Product.create({
@@ -95,7 +94,6 @@ module.exports = class ProductUseCase {
     });
 
     const { error } = prodWDataSchema.validate(product);
-
     if (error) throw new Error(error.message);
 
     const newProduct = await Product.bulkCreate(product);
@@ -112,8 +110,7 @@ module.exports = class ProductUseCase {
 
     const { name, brand, model, price, color } = product;
 
-    const { error } = productSchema.validate(product);
-
+    const { error } = prodSchema.validate(product);
     if (error) throw new Error(error.message);
 
     const productUpdated = await Product.update(
@@ -137,6 +134,9 @@ module.exports = class ProductUseCase {
     const { name, details, price } = product;
     const { brand, model, color } = details;
 
+    const { error } = prodWDtailsSchema.validate(product);
+    if (error) throw new Error(error.message);
+
     const updatedProduct = await Product.update(
       {
         name,
@@ -156,6 +156,9 @@ module.exports = class ProductUseCase {
 
   async updateProductWithData(token, id, product) {
     const decodedUser = tokenDecoder(token);
+
+    const { error } = sProdWDataSchema.validate(product);
+    if (error) throw new Error(error.message);
 
     const updatedProduct = await Product.update(product, {
       where: { id, userId: decodedUser.id },
