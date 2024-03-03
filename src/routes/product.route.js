@@ -33,5 +33,11 @@ module.exports = class ProductRoute {
       "/product/:id",
       this.controller.update.bind(this.controller)
     );
+
+    // delete method "/api/product/:id" route
+    this.router.delete(
+      "/product/:id",
+      this.controller.delete.bind(this.controller)
+    );
   }
 };
