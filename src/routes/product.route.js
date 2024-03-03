@@ -17,21 +17,15 @@ module.exports = class ProductRoute {
 
   initRoutes() {
     // get method "/api/product" route
-    this.router.get(
-      "/product",
-      this.controller.getAllProducts.bind(this.controller)
-    );
+    this.router.get("/product", this.controller.getAll.bind(this.controller));
 
     // get method "/api/product/:id" route
     this.router.get(
       "/product/:id",
-      this.controller.getProductById.bind(this.controller)
+      this.controller.getById.bind(this.controller)
     );
 
     // post method "/api/product" route
-    this.router.post(
-      "/product",
-      this.controller.newProduct.bind(this.controller)
-    );
+    this.router.post("/product", this.controller.create.bind(this.controller));
   }
 };

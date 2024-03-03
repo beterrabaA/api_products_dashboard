@@ -5,7 +5,7 @@ module.exports = class ProductController {
     this.usecase = new ProductUseCase();
   }
 
-  async getAllProducts(req, res, next) {
+  async getAll(req, res, next) {
     const token = req.headers.authorization;
 
     try {
@@ -17,7 +17,7 @@ module.exports = class ProductController {
     }
   }
 
-  async getProductById(req, res, next) {
+  async getById(req, res, next) {
     const token = req.headers.authorization;
     const productId = req.params.id;
 
@@ -30,7 +30,7 @@ module.exports = class ProductController {
     }
   }
 
-  async newProduct(req, res, next) {
+  async create(req, res, next) {
     const token = req.headers.authorization;
     const product = req.body;
 
@@ -46,6 +46,26 @@ module.exports = class ProductController {
       }
 
       return res.status(201).json(newProduct);
+    } catch (error) {
+      return res.status(405).json({ message: error.message });
+    }
+  }
+
+  async updateProduct(req, res, next) {
+    const token = req.headers.authorization;
+    const productId = req.params.id;
+    const product = req.body;
+
+    let productUpdated;
+
+    try {
+      const updatedProduct = await this.usecase.updateProduct(
+        token,
+        productId,
+        product
+      );
+
+      return res.status(200).json(updatedProduct);
     } catch (error) {
       return res.status(405).json({ message: error.message });
     }
