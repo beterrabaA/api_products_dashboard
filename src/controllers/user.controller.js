@@ -13,7 +13,7 @@ module.exports = class UserController {
 
       return res.status(201).json(createdUser);
     } catch (error) {
-      res.status(409).json({ message: "User already registered" });
+      res.status(409).json({ message: error.message });
     }
   }
 
