@@ -7,9 +7,9 @@ module.exports = class UserController {
   }
 
   async create(req, res, next) {
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
     try {
-      const createdUser = await this.usecase.createUser(email, password);
+      const createdUser = await this.usecase.createUser(name,email, password);
 
       return res.status(201).json(createdUser);
     } catch (error) {
@@ -23,7 +23,8 @@ module.exports = class UserController {
     try {
       const user = await this.usecase.login(email, password);
       const token = tokenGenerator({
-        id: user.uuid,
+        id: user.id,
+        name: user.name,
         email: user.email,
         password: user.password,
       });

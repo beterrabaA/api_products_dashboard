@@ -1,14 +1,24 @@
 const { User } = require("../models");
 const { hashEncode, hashDecode } = require("../utils/hash");
+const { userRegisterSchema, userLoginSchema } = require("./validations");
+
+const { randomUUID } = require("crypto");
 
 module.exports = class UserUseCase {
   constructor() {
     this.model = new User();
   }
 
-  async createUser(email, password) {
+  async createUser(name,email, password) {
+    const random = randomUUID();
+
+    const { error } = userRegisterSchema.validate({ name, email, password });
+    if (error) throw new Error(error.message);
+
     const hashedPassword = hashEncode(password);
     const newUser = await User.create({
+      id: random,
+      name,
       email,
       password: hashedPassword,
     });
@@ -16,8 +26,8 @@ module.exports = class UserUseCase {
     return newUser;
   }
 
-  async findUserById(uuid) {
-    const user = await User.findByPk(uuid, {
+  async findUserById(id) {
+    const user = await User.findByPk(id, {
       attributes: { exclude: ["password"] },
     });
 
@@ -27,6 +37,10 @@ module.exports = class UserUseCase {
   }
 
   async login(email, password) {
+
+    const { error } = userLoginSchema.validate({ email, password });
+    if (error) throw new Error(error.message);
+
     const user = await User.findOne({ where: { email } });
 
     if (!user) throw new Error("user not found");
