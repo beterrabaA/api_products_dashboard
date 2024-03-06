@@ -9,6 +9,11 @@ module.exports = class App {
   constructor() {
     this.app = express();
     this.port = process.env.PORT || 3000; // get .env port
+    this.corsConfig = {
+      origin: "*",
+      credential: true,
+      methods: ["GET", "POST", "PUT", "DELETE"],
+    };
     this.userRoute = new UserRoute();
     this.productRoute = new ProductRoute();
     this.middlewaresInitialize();
@@ -17,7 +22,8 @@ module.exports = class App {
 
   middlewaresInitialize() {
     this.app.use(express.json());
-    this.app.use(cors());
+    this.app.options("", cors(this.corsConfig));
+    this.app.use(cors(this.corsConfig));
     this.app.use(express.urlencoded({ extended: true }));
   }
 
