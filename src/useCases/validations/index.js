@@ -20,6 +20,7 @@ const prodWDtailsSchema = joi.object({
 
 const prodWDataSchema = joi.array().items(
   joi.object({
+    id: joi.string().required(),
     name: joi.string().required(),
     brand: joi.string().required(),
     model: joi.string().required(),
@@ -29,6 +30,7 @@ const prodWDataSchema = joi.array().items(
         color: joi.string().required(),
       })
     ),
+    userId: joi.string().required(),
   })
 );
 
@@ -45,24 +47,28 @@ const sProdWDataSchema = joi.object({
   ),
 });
 
-const userRegisterSchema = joi.object({
-  name: joi.string().required(),
-  email: joi.string().email().required(),
-  password: joi.string().min(6).required(),
-}).messages({
-  "string.empty": "Field is required",
-  "string.email": "Invalid email",
-  "string.min": "Password must have at least 6 characters",
-});
+const userRegisterSchema = joi
+  .object({
+    name: joi.string().required(),
+    email: joi.string().email().required(),
+    password: joi.string().min(6).required(),
+  })
+  .messages({
+    "string.empty": "Field is required",
+    "string.email": "Invalid email",
+    "string.min": "Password must have at least 6 characters",
+  });
 
-const userLoginSchema = joi.object({
-  email: joi.string().email().required(),
-  password: joi.string().min(6).required(),
-}).messages({
-  "string.empty": "Field is required",
-  "string.email": "Invalid email",
-  "string.min": "Password must have at least 6 characters",
-});
+const userLoginSchema = joi
+  .object({
+    email: joi.string().email().required(),
+    password: joi.string().min(6).required(),
+  })
+  .messages({
+    "string.empty": "Field is required",
+    "string.email": "Invalid email",
+    "string.min": "Password must have at least 6 characters",
+  });
 
 module.exports = {
   prodSchema,
