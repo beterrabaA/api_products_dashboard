@@ -19,4 +19,10 @@ module.exports = {
   development: {
     ...options,
   },
+  test: {
+    ...options,
+  },
+  production: {
+    ...options,
+  },
 };
