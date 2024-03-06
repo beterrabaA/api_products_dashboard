@@ -23,8 +23,11 @@ module.exports = class App {
 
   // initialize root /api route
   initializeRoutes() {
-    this.app.use("/api", this.userRoute.router);
-    this.app.use("/api", this.productRoute.router);
+    this.app.get("/", (_req, res) => {
+      res.send({ message: "Hello World" });
+    });
+    this.app.use("/", this.userRoute.router);
+    this.app.use("/", this.productRoute.router);
   }
 
   // initiate server listener
